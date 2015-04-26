@@ -1,0 +1,78 @@
+---
+title: "Investigation of exponential distribution"
+author: "Andrey Alferov"
+date: "Sunday, April 26, 2015"
+output:
+  pdf_document: default
+---
+
+This report provides the results of investigation of the properties of the distribution of the mean of 40 exponentials.
+It contains:
+
+1. comparison of the sample mean to the theoretical mean of the distribution;
+2. variability of the sample (via variance) and its comparison to the theoretical variance of the distribution;
+3. confirmation that the distribution is approximately normal.
+
+```{r, warning=FALSE, message=FALSE}
+library(ggplot2)
+
+set.seed(1234)
+```
+
+####Sample Mean versus Theoretical Mean
+
+Calculate the sample mean of 1000 averages of 40 exponentials.
+```{r}
+mns = NULL
+for (i in 1 : 1000) mns = c(mns, mean(rexp(40,0.2)))
+sample_mean <- mean(mns)
+sample_mean
+```
+
+Calculate the theoretical mean (1/lambda)
+```{r}
+theoretical_mean <- 1 / 0.2 
+theoretical_mean
+```
+
+Calculate the difference between the sample mean and the theoretical mean.
+```{r}
+results <- sample_mean - theoretical_mean
+results
+```
+
+The results shows that the difference between the sample mean of large collection of averages of a number of randoms and the theoretical mean is very low. What prooves the Law of Large Numbers.
+
+####Sample Variance versus Theoretical Variance
+
+Calculate the variance of the distribution of 1000 averages of 40 random exponentials.
+```{r}
+mns = NULL
+for (i in 1 : 1000) mns = c(mns, mean(rexp(40,0.2)))
+sample_var <- var(mns)
+sample_var
+```
+
+Calculate the theoretical variance ((1/lambda)^2/n)
+```{r}
+theoretical_var <- (1/0.2)^2/40
+theoretical_var
+```
+
+Calculate the difference between the sample variance and the theoretical variance.
+```{r}
+results <- sample_var - theoretical_var
+results
+```
+
+The results shows that the difference between the sample variance of large collection of averages of a number of randoms and the theoretical variance is very low. What prooves the Law of Large Numbers.
+
+####Distribution
+
+Plot the distribution of averages of 40 random exponentials and approximate it to the normal distirbution.
+```{r, warning=FALSE, message=FALSE}
+plot <- ggplot(data.frame(mns), aes(x = mns))
+plot <- plot + geom_histogram(aes(y=..density..), color = "black", fill = "green")
+plot + geom_density(colour="blue", size=1);
+```
+The plot above shows that the distribution fits the bell curve pretty well and thus is approximately normal.

@@ -1,0 +1,21 @@
+---
+title: "Analysis of the ToothGrowth data"
+author: "Andrey Alferov"
+date: "Sunday, April 26, 2015"
+output:
+  pdf_document: default
+---
+
+This report provides the results of analysis of the ToothGrowth data.
+It contains:
+
+1. basic exploratory data analyses of the data;
+2. tooth growth comparative analysis by supp and dose.
+
+```{r, warning=FALSE, message=FALSE}
+library(ggplot2)
+
+set.seed(1234)
+```
+
+####ToothGrowth exploratory analysis
