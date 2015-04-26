@@ -15,7 +15,54 @@ It contains:
 ```{r, warning=FALSE, message=FALSE}
 library(ggplot2)
 
-set.seed(1234)
+data(ToothGrowth) #Load dataset
 ```
 
 ####ToothGrowth exploratory analysis
+Let's plot tooth growth for different supplements and different doses.
+```{r}
+ggplot(aes(x = supp, y = len), data = ToothGrowth) +
+    geom_boxplot(aes(fill = supp)) + facet_wrap(~ dose)
+```
+As one can see the OJ supplement is more effective at lower and intermediate dose levels but at higher dose levels both supplements have similar effects.
+
+
+The summary statistics of ToothGrowth dataset:
+```{r}
+summary(ToothGrowth)
+```
+
+####Analysis of tooth growth by supp and dose
+Analysis was performed assuming there are independent groups of observations in the dataset as well as unequal variance for different groups.
+
+Split original dataset by dose level.
+```{r}
+Tooth.dose05 <- subset(ToothGrowth, dose == 0.5)
+Tooth.dose10 <- subset(ToothGrowth, dose == 1.0)
+Tooth.dose20 <- subset(ToothGrowth, dose == 2.0)
+```
+
+The t-test for the lowest dose level (0.5 mg) for two different supplements
+```{r}
+t.test(len ~ supp, paired = F, var.equal = F, data = Tooth.dose05)
+```
+Confidence interval of [1.72, 8,78] for mean(OJ)-mean(VC) shows that we can reject the null hypothesis and that orange juice (OJ) is more effective for this dose level.
+
+The t-test for the lowest dose level (1.0 mg) for two different supplements
+```{r}
+t.test(len ~ supp, paired = F, var.equal = F, data = Tooth.dose10)
+```
+Confidence interval of [2.80, 9.06] for mean(OJ)-mean(VC) shows that we can reject the null hypothesis and that orange juice (OJ) is more effective for this dose level.
+
+The t-test for the lowest dose level (2.0 mg) for two different supplements
+```{r}
+t.test(len ~ supp, paired = F, var.equal = F, data = Tooth.dose20)
+```
+Confidence interval of [-3.80, 3.64] for mean(OJ)-mean(VC) shows that we cannot reject the null hypothesis that there is not a significant difference in tooth length between the two supplement types at this dose level.
+
+####Conclusion
+Analysis via confidence intervals prooved the exploratory analysis conclusion that OJ supplement is more effective at lower and intermediate dose levels but at higher dose levels both supplements have similar effects.
+
+
+
+
